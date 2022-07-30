@@ -156,7 +156,6 @@ std::cout << "naor recv" << "8" << std::endl;
     {
         std::cout << "naor send" << "0" << std::endl;
         using namespace DefaultCurve;
-        Curve curve;
 std::cout << "naor send" << "1" << std::endl;
         block R = prng.get<block>();
         // one out of nSndVals OT.
