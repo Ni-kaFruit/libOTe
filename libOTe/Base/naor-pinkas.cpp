@@ -38,7 +38,6 @@ namespace osuCrypto
     {
         std::cout << "naor recv" << "0" << std::endl;
         using namespace DefaultCurve;
-        Curve curve;
         std::cout << "naor recv" << "1" << std::endl;
         // should generalize to 1 out of N by changing this. But isn't tested...
         const auto nSndVals(2);
