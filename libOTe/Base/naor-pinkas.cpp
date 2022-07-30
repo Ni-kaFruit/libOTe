@@ -36,6 +36,7 @@ namespace osuCrypto
         Channel& socket,
         u64 numThreads)
     {
+        std::cout << "naor recv" << "0" << std::endl;
         using namespace DefaultCurve;
         Curve curve;
         std::cout << "naor recv" << "1" << std::endl;
@@ -153,6 +154,7 @@ std::cout << "naor recv" << "8" << std::endl;
         Channel& socket,
         u64 numThreads)
     {
+        std::cout << "naor send" << "0" << std::endl;
         using namespace DefaultCurve;
         Curve curve;
 std::cout << "naor send" << "1" << std::endl;
