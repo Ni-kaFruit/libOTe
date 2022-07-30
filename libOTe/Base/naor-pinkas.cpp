@@ -38,6 +38,7 @@ namespace osuCrypto
     {
         std::cout << "naor recv" << "0" << std::endl;
         using namespace DefaultCurve;
+        Curve curve;
         std::cout << "naor recv" << "1" << std::endl;
         // should generalize to 1 out of N by changing this. But isn't tested...
         const auto nSndVals(2);
@@ -69,6 +70,8 @@ std::cout << "naor recv" << "5" << std::endl;
                 auto mEnd = (t + 1) * messages.size() / numThreads;
 
                 PRNG prng(seed);
+
+                Curve curve;
 
                 std::vector<Number> pK;
                 std::vector<Point>
@@ -151,8 +154,9 @@ std::cout << "naor recv" << "8" << std::endl;
         Channel& socket,
         u64 numThreads)
     {
-        std::cout << "naor send" << "0" << std::endl;
+        std::cout << "naor send" << "1" << std::endl;
         using namespace DefaultCurve;
+        Curve curve;
 std::cout << "naor send" << "1" << std::endl;
         block R = prng.get<block>();
         // one out of nSndVals OT.
