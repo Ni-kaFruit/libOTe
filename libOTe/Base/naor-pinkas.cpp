@@ -70,8 +70,6 @@ std::cout << "naor recv" << "5" << std::endl;
 
                 PRNG prng(seed);
 
-                Curve curve;
-
                 std::vector<Number> pK;
                 std::vector<Point>
                     PK_sigma,
