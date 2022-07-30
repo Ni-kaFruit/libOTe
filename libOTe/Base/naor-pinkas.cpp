@@ -38,7 +38,6 @@ namespace osuCrypto
     {
         std::cout << "naor recv" << "0" << std::endl;
         using namespace DefaultCurve;
-        Curve curve;
         std::cout << "naor recv" << "1" << std::endl;
         // should generalize to 1 out of N by changing this. But isn't tested...
         const auto nSndVals(2);
@@ -71,7 +70,6 @@ std::cout << "naor recv" << "5" << std::endl;
 
                 PRNG prng(seed);
 
-                Curve curve;
 
                 std::vector<Number> pK;
                 std::vector<Point>
@@ -156,7 +154,6 @@ std::cout << "naor recv" << "8" << std::endl;
     {
         std::cout << "naor send" << "0" << std::endl;
         using namespace DefaultCurve;
-        Curve curve;
 std::cout << "naor send" << "1" << std::endl;
         block R = prng.get<block>();
         // one out of nSndVals OT.
@@ -205,7 +202,6 @@ std::cout << "naor send" << "10" << std::endl;
                 t, pointSize, &messages, recvFuture,
                     numThreads, &buff, &alpha, nSndVals, &pC,&socket,&R]()
             {
-                Curve curve;
                 Point pPK0;
 
                 RandomOracle ro(sizeof(block));
