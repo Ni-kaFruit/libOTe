@@ -38,23 +38,23 @@ namespace osuCrypto
     {
         using namespace DefaultCurve;
         Curve curve;
-
+        std::cout << "naor recv" << "1" << std::endl;
         // should generalize to 1 out of N by changing this. But isn't tested...
         const auto nSndVals(2);
         const auto pointSize = Point::size;
-
+std::cout << "naor recv" << "2" << std::endl;
         std::vector<std::thread> thrds(numThreads);
         std::vector<u8> sendBuff(messages.size() * pointSize);
         std::atomic<u32> remainingPK0s((u32)numThreads);
-
+std::cout << "naor recv" << "3" << std::endl;
         std::vector<u8> cBuff(nSndVals * pointSize);
         auto cRecvFuture = socket.asyncRecv(cBuff.data(), cBuff.size()).share();
         block R;
-
+std::cout << "naor recv" << "4" << std::endl;
         std::array<u8, RandomOracle::HashSize> comm, comm2;
         auto commFuture = socket.asyncRecv(comm);
         auto RFuture = socket.asyncRecv(R).share();
-
+std::cout << "naor recv" << "5" << std::endl;
         for (u64 t = 0; t < numThreads; ++t)
         {
             auto seed = prng.get<block>();
@@ -133,17 +133,17 @@ namespace osuCrypto
                 }
             });
         }
-
+std::cout << "naor recv" << "6" << std::endl;
         for (auto& thrd : thrds)
             thrd.join();
-
+std::cout << "naor recv" << "7" << std::endl;
         commFuture.get();
         RandomOracle ro;
         ro.Update(R);
         ro.Final(comm2);
         if (comm != comm2)
             throw std::runtime_error("bad commitment " LOCATION);
-
+std::cout << "naor recv" << "8" << std::endl;
     }
 
 
@@ -155,32 +155,32 @@ namespace osuCrypto
     {
         using namespace DefaultCurve;
         Curve curve;
-
+std::cout << "naor send" << "1" << std::endl;
         block R = prng.get<block>();
         // one out of nSndVals OT.
         u64 nSndVals(2);
         std::vector<std::thread> thrds(numThreads);
         //auto seed = prng.get<block>();
-
+std::cout << "naor send" << "2" << std::endl;
         Number alpha(prng);
         const auto pointSize = Point::size;
         std::vector<Point> pC;
         pC.reserve(nSndVals);
-
+std::cout << "naor send" << "3" << std::endl;
         pC.emplace_back(Point::mulGenerator(alpha));
-
+std::cout << "naor send" << "4" << std::endl;
         std::vector<u8> sendBuff(nSndVals * pointSize);
         pC[0].toBytes(sendBuff.data());
-
+std::cout << "naor send" << "5" << std::endl;
         for (u64 u = 1; u < nSndVals; u++)
         {
             // TODO: Faster to use hash to curve to randomize?
             pC.emplace_back(Point::mulGenerator(Number(prng)));
             pC[u].toBytes(&sendBuff[pointSize * u]);
         }
-
+std::cout << "naor send" << "6" << std::endl;
         socket.asyncSend(std::move(sendBuff));
-
+std::cout << "naor send" << "7" << std::endl;
         // sends a commitment to R. This strengthens the security of NP01 to
         // make the protocol output uniform strings no matter what.
         RandomOracle ro;
@@ -188,14 +188,14 @@ namespace osuCrypto
         ro.Update(R);
         ro.Final(comm.data());
         socket.asyncSend(std::move(comm));
-
+std::cout << "naor send" << "8" << std::endl;
 
         for (u64 u = 1; u < nSndVals; u++)
             pC[u] *= alpha;
-
+std::cout << "naor send" << "9" << std::endl;
         std::vector<u8> buff(pointSize * messages.size());
         auto recvFuture = socket.asyncRecv(buff.data(), buff.size()).share();
-
+std::cout << "naor send" << "10" << std::endl;
         for (u64 t = 0; t < numThreads; ++t)
         {
 
@@ -244,7 +244,7 @@ namespace osuCrypto
                 }
             });
         }
-
+std::cout << "naor send" << "11" << std::endl;
         for (auto& thrd : thrds)
             thrd.join();
     }
